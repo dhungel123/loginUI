@@ -22,7 +22,7 @@ class AppRouter {
             path: Paths.loginPage.path,
             name: Paths.loginPage.routeName,
             pageBuilder: (context, state) => FadeTransitionPage(
-                key: state.pageKey, child: const LoginPage())
+                key: state.pageKey, child:  LoginPage())
         ),
         GoRoute(
             path: Paths.signupPage.path,

@@ -2,11 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+import 'package:login_screen/auth/domain/login_controller.dart';
+import 'package:login_screen/presentation/widgets/app_text_form_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/routes/paths.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+   LoginPage({Key? key}) : super(key: key);
+   final GlobalKey<FormState> formKey=GlobalKey<FormState>();
+  final RegExp emailValid=RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +42,55 @@ class LoginPage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  TextField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.alternate_email_sharp),
-                        labelText: 'Email ID'
-                    ),
+                  // TextField(
+                  //   decoration: InputDecoration(
+                  //       prefixIcon: Icon(Icons.alternate_email_sharp),
+                  //       labelText: 'Email ID'
+                  //   ),
+                  // ),
+                  //
+                  // TextField(
+                  //   decoration: InputDecoration(
+                  //       prefixIcon: Icon(Icons.lock_outlined),
+                  //       labelText: 'Password'
+                  //   ),
+                  // ),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        AppTextFormField(
+
+                          labelName: 'Email ID',
+                          prefixIcon: Icon(Icons.alternate_email_rounded),
+                          validator: (value){
+                            if(emailValid.hasMatch(value!)){
+
+                            }else if(value.isEmpty){
+                              return 'Please enter email';
+                            }
+                            else{
+                              return 'Invalid email';
+                            }
+                          },
+                        ),
+                        AppTextFormField(
+                          labelName: 'Password',
+                          prefixIcon: Icon(Icons.lock_clock_sharp),
+                          validator: (value){
+                            if(value==null||value.isEmpty){
+                              return 'Please enter password';
+
+                            }
+                          },
+
+                        ),
+
+
+                      ],
+                    )
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock_outlined),
-                        labelText: 'Password'
-                    ),
-                  ),
+
                   SizedBox(height: 12,),
                   Padding(
                     padding: const EdgeInsets.only(left: 220),
@@ -72,7 +113,11 @@ class LoginPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.deepPurpleAccent
                           ),
-                          onPressed: () {}, child: Text('Login'))
+                          onPressed: () {
+                            if(formKey.currentState!.validate()){
+
+                            }
+                          }, child: Text('Login'))
                   ),
                   SizedBox(height: 20,),
                   Text('OR'),
@@ -84,6 +129,8 @@ class LoginPage extends StatelessWidget {
                   SizedBox(height: 24,),
                   ElevatedButton.icon(
                     onPressed: () {
+                      LoginController.goToGoogleLogin(context);
+
                     },
                     icon: IconButton(onPressed: () {
                       callingMethod2('https://accounts.google.com/v3/signin/identifier?dsh=S-1325213159%3A1689854281583990&authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Futm_source%3Dsign_in_no_continue%26pli%3D1&ec=GAlAwAE&hl=en&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession');

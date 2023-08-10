@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
-  const AppTextFormField({
+   AppTextFormField({
     super.key,
     required this.labelName,
     this.borderColor,
@@ -13,7 +13,8 @@ class AppTextFormField extends StatelessWidget {
     this.textController,
     this.obscureText,
     this.suffixIcon,
-    this.prefixIcon
+    this.prefixIcon,
+
   });
 
   final String? labelName;
@@ -26,6 +27,7 @@ class AppTextFormField extends StatelessWidget {
   final bool? obscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+
 
   @override
   Widget build(BuildContext context) {
